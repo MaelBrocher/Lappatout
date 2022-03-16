@@ -3,6 +3,14 @@ import { Text, View, StyleSheet, ScrollView  } from 'react-native';
 import * as Location from 'expo-location';
 import { format } from "date-fns";
 import { Card } from 'react-native-shadow-cards';
+import * as Localization from 'expo-localization';
+import * as moment from 'moment-timezone';
+
+function getDateString(t) {
+    return moment.utc(t, 'HH:mm:ss')
+    .tz(Localization.timezone)
+    .format('HH:mm:ss');
+}
 
 var date = new Date();
 var yesterday = format(addDays(date, -2), "yyyy-MM-dd");
@@ -46,7 +54,7 @@ function ProccessDaylimit(start, end) {
 	end = end.substring(0,8).trim()
 	end = (parseInt(end.substring(0,end[1] == ':' ? 1:2)) + 12).toString() + end.substring(1,8)
 
-	return start + ' - ' + end
+	return getDateString(start) + ' - ' + getDateString(end)
 }
 export default function App() {
 	const [location, setLocation] = useState(null);
